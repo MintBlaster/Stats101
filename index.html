@@ -14,26 +14,31 @@
 <body>
     <div>
         <h1>STATS 101</h1>
-        <h3>Individual Series</h3>
 
         <select id="series">
             <option value="individual">Individual</option>
-            <!-- <option value="discrete">Discrete</option>
-        <option value="continuous">Continuous</option> -->
+            <option value="discrete">Discrete</option>
+            <option value="continuous">Continuous</option> -->
         </select>
 
         <select id="methods">
             <option value="direct">Direct</option>
             <option value="shortcut">Short cut</option>
+            <option value="step-deviation">Step Deviation</option>
         </select>
     </div>
 
     <form>
-        <input type="number" name="number" id="new-number" />
+
+        <input type="number" name="first row" id="first-row" />
+        <input type="number" name="second row" id="second-row" style="display: none;" />
+        <input type="number" name="third row" id="third-row" style="display: none;" />
+        <input type="number" name="assumed-mean" id="assumed-mean" style="display: none;" />
         <button type="submit" id="add-number">Add</button>
         <button onclick="calculate()" id="calculate">Calculate</button>
     </form>
 
+    <!-- Table that shows the entered values -->
     <div>
         <table id="table">
             <tr>
