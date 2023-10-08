@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>STATS 101</h1>
+        <h3>Individual Series</h3>
+
+        <select id="series">
+            <option value="individual">Individual</option>
+            <!-- <option value="discrete">Discrete</option>
+        <option value="continuous">Continuous</option> -->
+        </select>
+
+        <select id="methods">
+            <option value="direct">Direct</option>
+            <option value="shortcut">Short cut</option>
+        </select>
+    </div>
+
+    <form>
+        <input type="number" name="number" id="new-number" />
+        <button type="submit" id="add-number">Add</button>
+        <button onclick="calculate()" id="calculate">Calculate</button>
+    </form>
+
+    <div>
+        <table id="table">
+            <tr>
+                <th>Numbers</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Container for printing the solution -->
+    <div id="solution-div"></div>
+</body>
+
+<script src="script.js"></script>
+
+</html>
