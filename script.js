@@ -1,4 +1,4 @@
-let numberToBeAdded = document.getElementById("new-number");
+
 let addNumberButton = document.getElementById("add-number");
 let table = document.getElementById("table");
 let solutionDiv = document.getElementById("solution-div");
@@ -7,21 +7,35 @@ let method = document.getElementById("methods");
 
 let numberArray = [];
 
-
+// Event Listeners
 addNumberButton.addEventListener('click', () => {
 
+
+
+    let numberToBeAdded = document.getElementById("first-number");
     let newNumber = parseInt(numberToBeAdded.value);
     
     numberArray.push(newNumber);
     numberToBeAdded.value = "";
 
-    showTable(newNumber);
+    fillTable(newNumber);
 })
 
 series.addEventListener('change', checkForChange);
 method.addEventListener('change', checkForChange);
 
 function checkForChange(){
+    // Check if series is individual and method is shortcut.
+    // if yes then let user enter assumed mean. In other methods we calculate assumed-mean inside code.
+
+    if (series.value == "individual" && method.value == "shortcut"){
+        document.getElementById("assumed-mean").style.display = "block";
+    }
+    else {
+        document.getElementById("assumed-mean").style.display = "none";
+    }
+
+    // Check which series and methods users has selected and perform specific action.
     if (series.value == "individual"){
         // code ..
     }
@@ -31,13 +45,6 @@ function checkForChange(){
     else if (series.value == "continuous"){
         // code ..
     }
-}
-
-if (series.value == "individual" && method.value == "shortcut"){
-    document.getElementById("assumed-mean").style.display = "block";
-}
-else {
-    document.getElementById("assumed-mean").style.display = "none";
 }
 
 
@@ -51,17 +58,18 @@ function fillTable(newNumber) {
 }
 
 function calculate(){
-    if (series.value = "individual"){
-        if (method.value = "direct"){
+    if (series.value == "individual"){
+        if (method.value == "direct"){
             direct();
         }
-        else if (methods.value = "shortcut"){
-            // code for shortcut method go here ....
+        else if (method.value == "shortcut"){
+            shortCut();
         }
     }
 }
 
 function direct(){
+    console.log("direct");
     sumOfAllNumbers = 0;
     let total = numberArray.length;
     for (i = 0; i < total; i++){
@@ -69,29 +77,45 @@ function direct(){
     }
     mean = sumOfAllNumbers / total;
 
-    showSolution(total);
+    let formulaText = " \\( \\overline{x} = \\frac {\\sum x} {n} \\) ";
+    let solutionText = " \\( \\overline{x} = \\frac { " + sumOfAllNumbers + " } {  " + total + " } \\) ";
+    let answerText = " \\(\\overline{x}  = " + mean + " \\)";
+
+    showSolution(formulaText, solutionText, answerText);
 }
 
 function shortCut(){
-    sumOfAllNumbers = 0;
 
+    console.log("shortcut");
+    assumedMean = parseFloat(document.getElementById("assumed-mean").value);
+
+    let deviationArray = [];
     let total = numberArray.length;
-    for (i = 0; i < total; i++){
-        sumOfAllNumbers += numberArray[i];
-    }
-    mean = sumOfAllNumbers / total;
+    sumOfDeviations = 0;
 
-    showSolution(total);
+    for (i = 0; i < total; i++){
+        deviationArray[i] = numberArray[i] - assumedMean;
+        sumOfDeviations += deviationArray[i];
+    }
+
+    console.log(deviationArray);
+    mean = assumedMean +  ( sumOfDeviations / total );
+
+    let formulaText = " \\( \\overline{x} = A + \\frac {\\sum d} {n} \\) ";
+    let solutionText = " \\( \\overline{x} = " + assumedMean + " +  \\frac { " + sumOfDeviations + " } {  " + total + " } \\) ";
+    let answerText = " \\(\\overline{x}  = " + mean + " \\)";
+
+    showSolution(formulaText, solutionText, answerText);
 }
 
-function showSolution(total) {
+function showSolution(formulaText, solutionText, answerText) {
     let formula = document.createElement("p");
-    let solution = document.createElement("p");
+    let solution = document.createElement("div");
     let answer = document.createElement("p");
 
-    formula.innerHTML = " \\( \\overline{x} = \\frac {\\sum x} {n} \\) ";
-    solution.innerHTML = " \\( \\overline{x} = \\frac { " + sumOfAllNumbers + " } {  " + total + " } \\) ";
-    answer.innerHTML = " \\(\\overline{x}  = " + mean + " \\)";
+    formula.innerHTML = formulaText;
+    solution.innerHTML = solutionText;
+    answer.innerHTML = answerText;
 
     solutionDiv.appendChild(formula);
     solutionDiv.appendChild(solution);
@@ -99,3 +123,5 @@ function showSolution(total) {
 
     MathJax.typeset();
 }
+
+
