@@ -3,9 +3,10 @@ let addNumberButton = document.getElementById("add-number");
 let table = document.getElementById("table");
 let solutionDiv = document.getElementById("solution-div");
 let series = document.getElementById("series");
-let methods = document.getElementById("methods"); 
+let method = document.getElementById("methods"); 
 
 let numberArray = [];
+
 
 addNumberButton.addEventListener('click', () => {
 
@@ -17,7 +18,30 @@ addNumberButton.addEventListener('click', () => {
     showTable(newNumber);
 })
 
-function showTable(newNumber) {
+series.addEventListener('change', checkForChange);
+method.addEventListener('change', checkForChange);
+
+function checkForChange(){
+    if (series.value == "individual"){
+        // code ..
+    }
+    else if (series.value == "discrete"){
+        // code ..
+    }
+    else if (series.value == "continuous"){
+        // code ..
+    }
+}
+
+if (series.value == "individual" && method.value == "shortcut"){
+    document.getElementById("assumed-mean").style.display = "block";
+}
+else {
+    document.getElementById("assumed-mean").style.display = "none";
+}
+
+
+function fillTable(newNumber) {
 
     let newRow = document.createElement("tr");
     let newData = document.createElement("td");
@@ -28,7 +52,7 @@ function showTable(newNumber) {
 
 function calculate(){
     if (series.value = "individual"){
-        if (methods.value = "direct"){
+        if (method.value = "direct"){
             direct();
         }
         else if (methods.value = "shortcut"){
