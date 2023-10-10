@@ -12,39 +12,62 @@
 </head>
 
 <body>
-    <div>
-        <h1>STATS 101</h1>
+    <div class="header-container div-content-center">
+        <h1 class="main-heading">STATS 101</h1>
 
-        <select id="series">
-            <option value="individual">Individual</option>
-            <option value="discrete">Discrete</option>
-            <option value="continuous">Continuous</option> -->
-        </select>
+        <div class="selectors">
+            <select id="series" class="select-menu">
+                <option value="individual">Individual</option>
+                <option value="discrete">Discrete</option>
+                <option value="continuous">Continuous</option> -->
+            </select>
 
-        <select id="methods">
-            <option value="direct">Direct</option>
-            <option value="shortcut">Short cut</option>
-            <option value="step-deviation">Step Deviation</option>
-        </select>
+            <select id="methods" class="select-menu">
+                <option value="direct">Direct</option>
+                <option value="shortcut">Short cut</option>
+                <option value="step-deviation">Step Deviation</option>
+            </select>
+        </div>
     </div>
 
-    <div>
-        <input type="number" name="first row" id="first-number" />
-        <input type="number" name="second row" id="second-number" style="display: none;" />
-        <input type="number" name="third row" id="third-number" style="display: none;" />
-        <button type="submit" id="add-number">Add</button>
-        <input type="number" name="assumed-mean" id="assumed-mean" style="display: none;" />
+    <div class="question-container div-content-center">
+        <div id="individual-fields" style="display: none;">
+            <label for="individual-data">Data:</label>
+            <input type="text" id="individual-data" class="individual-field-input" tabindex="1">
+            <label for="assumed-mean">Assumed Mean:</label>
+            <input type="text" id="assumed-mean" tabindex="1">
+        </div>
 
-        <button onclick="calculate()" id="calculate">Calculate</button>
-    </div>
+        <!-- Input fields for Discrete -->
+        <div id="discrete-fields" style="display: none;">
+            <label for=" discrete-data">Data:</label>
+            <input type="text" id="discrete-data" class="discrete-field-input" tabindex="1">
+            <label for="frequency">Frequency:</label>
+            <input type="text" id="frequency" class="discrete-field-input" tabindex="2">
+        </div>
 
-    <!-- Table that shows the entered values -->
-    <div>
-        <table id="input-table">
-            <tr>
-                <th>Numbers</th>
-            </tr>
+        <!-- Input fields for Continuous -->
+        <div id="continuous-fields" style="display: none;">
+            <label for="range-start">Start:</label>
+            <input type="text" id="range-start" class="continuous-field-input" tabindex="1">
+            <label for="range-end">End:</label>
+            <input type="text" id="range-end" class="continuous-field-input" tabindex="2">
+            <label for="frequency-continuous">Frequency:</label>
+            <input type="text" id="frequency-continuous" class="continuous-field-input" tabindex="3">
+        </div>
+
+        <div class="buttons div-content-center">
+            <button type="submit" tabindex="4" id="add-number">Add</button>
+            <button onclick="calculate()" id="calculate">Calculate</button>
+        </div>
+
+
+        <!--  Table that shows the entered values -->
+
+        <table class="input-table" id="input-fields-table">
+
         </table>
+
     </div>
 
     <!-- Container for printing the solution -->
@@ -58,7 +81,6 @@
             <tbody id="solution-table-body">
             </tbody>
         </table>
-
     </div>
 </body>
 
