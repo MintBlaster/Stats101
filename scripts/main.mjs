@@ -1,4 +1,4 @@
-import { IndividualSeriesCalculator } from "./classes.mjs";
+import { IndividualSeriesCalculator, DiscreteSeriesCalculator } from "./classes.mjs";
 
 let addNumberButton = document.getElementById("add-number");
 let solutionDiv = document.getElementById("solution-div");
@@ -23,7 +23,7 @@ addNumberButton.addEventListener("click", () => {
         if (Array.from(inputFields).every(input => input.value.trim() !== "")) {
             var data = document.getElementById("individual-data").value;
 
-            numberArray.push([data]);
+            numberArray.push([Number(data)]);
 
             inputFields.forEach(function (input) { input.value = "" });
         }
@@ -117,7 +117,7 @@ document.getElementById("clear-button").addEventListener("click", function () {
 });
 
 function calculate() {
-
+    console.log(numberArray)
     // Clear existing solution.
     clearSolution();
 
@@ -128,6 +128,15 @@ function calculate() {
         } else if (method.value == "shortcut") {
             let assumedMean = document.getElementById('assumed-mean').value;
             isc.calculateShortcutMethod(assumedMean)
+        }
+    }
+
+    if (series.value == "discrete") {
+        const dsc = new DiscreteSeriesCalculator(numberArray);
+        if (method.value == "direct") {
+            dsc.calculateDirectMethod()
+        } else if (method.value == "shortcut") {
+            dsc.calculateShortcutMethod()
         }
     }
 

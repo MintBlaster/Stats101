@@ -56,12 +56,13 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
     }
 
     calculateDirectMethod() {
+
         const total = this.data.length;
         const sumOfAllNumbers = this.data.reduce((acc, value) => acc + Number(value), 0);
         this.result = sumOfAllNumbers / total;
 
         const formulaText = `\\( \\overline{x} = \\frac {\\sum x} {n} \\)`;
-        const solutionText = `\\( \\overline{x} = \\frac {\\ ` + sumOfAllNumbers + `  } { ` + total + ` } \\)`;
+        const solutionText = `\\( \\overline{x} = \\frac {\\ ${sumOfAllNumbers}  } { ${total} } \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index, x]);
@@ -71,9 +72,10 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
 
     calculateShortcutMethod(assumedMean) {
         const total = this.data.length;
-        const deviations = this.data.map((value) => Number(value) - Number(assumedMean));
+        const deviations = this.data.map((value) => value - assumedMean);
         const sumOfDeviations = deviations.reduce((acc, deviation) => acc + deviation, 0);
-        this.result = assumedMean + sumOfDeviations / total;
+
+        this.result = Number(assumedMean) + sumOfDeviations / total;
 
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum d} {n} \\)`;
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfDeviations}} {${total}} \\)`;
@@ -87,21 +89,54 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
 
 
 // Discrete series class
-class DiscreteSeriesCalculator extends SeriesCalculator {
+export class DiscreteSeriesCalculator extends SeriesCalculator {
     constructor(data) {
         super(data);
     }
 
     calculateDirectMethod() {
-        // To be implemented...
+        const total = this.data.length;
+        let sumOfAllNumbersIntoFrequencies = 0;
+        let sumOfFrequencies = 0;
+
+        for (let i = 0; i < total; i++) {
+            sumOfAllNumbersIntoFrequencies += this.data[i][0] * this.data[i][1];
+            sumOfFrequencies += Number(this.data[i][1]);
+        }
+
+        this.result = sumOfAllNumbersIntoFrequencies / sumOfFrequencies;
+
+        const formulaText = `\\( \\overline{x} = \\frac {\\sum fd} {N} \\)`;
+        const solutionText = `\\( \\overline{x} = \\frac {${sumOfAllNumbersIntoFrequencies}} {${sumOfFrequencies}} \\)`;
+        const answerText = `\\(\\overline{x} = ${this.result} \\)`;
+
+        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1]]);
+
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
 
     calculateShortcutMethod() {
-        // To be implemented...
-    }
+        const total = this.data.length;
+        const assumedMean = this.data[Math.floor(total / 2)][0];
+        const deviations = this.data.map((value) => value[0] - assumedMean);
 
-    calculate() {
-        // To be implemented...
+        let sumOfFrequencyIntoDeviations = 0;
+        let sumOfAllFrequencies = 0;
+
+
+        for (let i = 0; i < total; i++) {
+            sumOfFrequencyIntoDeviations += deviations[i] * this.data[i][1];
+            sumOfAllFrequencies += Number(this.data[i][1]);
+        }
+        this.result = Number(assumedMean) + sumOfFrequencyIntoDeviations / sumOfAllFrequencies;
+
+        const formulaText = `\\( \\overline{x} = A + \\frac {\\sum fd} {N} \\)`;
+        const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfFrequencyIntoDeviations}} {${sumOfAllFrequencies}} \\)`;
+        const answerText = `\\(\\overline{x} = ${this.result} \\)`;
+
+        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], deviations[index], deviations[index] * x[1]]);
+
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
 }
 
