@@ -8,51 +8,102 @@ let numberArray = [];
 
 // Event Listeners
 addNumberButton.addEventListener("click", () => {
-    let numberToBeAdded = document.getElementById("first-number");
-    let newNumber = parseInt(numberToBeAdded.value);
 
-    numberArray.push(newNumber);
-    numberToBeAdded.value = "";
+    if (series.value === "individual") {
+        var inputFields = document.querySelectorAll(".individual-field-input");
 
-    fillTable(newNumber);
+        if (Array.from(inputFields).every(input => input.value.trim() !== "")) {
+            var data = document.getElementById("individual-data").value;
+
+            numberArray.push([parseFloat(data)]);
+
+            inputFields.forEach(function (input) { input.value = "" });
+            // document.getElementById("individual-data").value = "";
+        }
+
+
+    } else if (series.value === "discrete") {
+        var inputFields = document.querySelectorAll(".discrete-field-input");
+
+        if (Array.from(inputFields).every(input => input.value.trim() !== "")) {
+            var data = document.getElementById("discrete-data").value;
+            var frequency = document.getElementById("frequency").value;
+
+            numberArray.push([data, frequency]);
+
+            inputFields.forEach(function (input) { input.value = "" });
+            // ["discrete-data", "frequency"].forEach(id => document.getElementById(id).value = "");
+        }
+
+    } else if (series.value === "continuous") {
+        var inputFields = document.querySelectorAll(".continuous-field-input");
+
+        if (Array.from(inputFields).every(input => input.value.trim() !== "")) {
+            var rangeStart = document.getElementById("range-start").value;
+            var rangeEnd = document.getElementById("range-end").value;
+            var frequency = document.getElementById("frequency-continuous").value;
+
+            numberArray.push([rangeStart, rangeEnd, frequency]);
+
+            inputFields.forEach(function (input) { input.value = "" });
+        }
+
+    }
+    showInputFieldsTable();
 });
 
-series.addEventListener("change", checkForChange);
-method.addEventListener("change", checkForChange);
+// Get input values based on the selected series type
 
-function checkForChange() {
-    // Check if series is individual and method is shortcut.
-    // if yes then let user enter assumed mean. In other methods we calculate assumed-mean inside code.
+series.addEventListener("change", showInputFields);
+method.addEventListener("change", showInputFields);
 
-    if (series.value == "individual" && method.value == "shortcut") {
-        document.getElementById("assumed-mean").style.display = "block";
-    } else {
-        document.getElementById("assumed-mean").style.display = "none";
+function showInputFields() {
+
+
+    // Hide all input fields
+    document.getElementById("individual-fields").style.display = "none";
+    document.getElementById("discrete-fields").style.display = "none";
+    document.getElementById("continuous-fields").style.display = "none";
+
+    // Show the field which is selected.
+    if (series.value === "individual") {
+        document.getElementById("individual-fields").style.display = "block";
+    } else if (series.value === "discrete") {
+        document.getElementById("discrete-fields").style.display = "block";
+    } else if (series.value === "continuous") {
+        document.getElementById("continuous-fields").style.display = "block";
     }
 
-    // Check which series and methods users has selected and perform specific action.
-    if (series.value == "individual") {
-        // code ..
-    } else if (series.value == "discrete") {
-        // code ..
-    } else if (series.value == "continuous") {
-        // code ..
-    }
+    // clear the data from the previous series / methods.
+    numberArray = [];
 }
 
-function fillTable(newNumber) {
-    let newRow = document.createElement("tr");
-    let newData = document.createElement("td");
-    newData.innerHTML = newNumber;
-    newRow.appendChild(newData);
-    inputTable.appendChild(newRow);
+function showInputFieldsTable() {
+    let inputFieldsTable = document.getElementById("input-fields-table");
+    while (inputFieldsTable.firstChild) {
+        inputFieldsTable.removeChild(inputFieldsTable.firstChild);
+    }
+    var tbody = document.createElement(tbody);
+    for (i = 0; i < numberArray.length; i++) {
+        // create number of rows
+        let tr = document.createElement("tr");
+        for (j = 0; j < numberArray[0].length; j++) {
+            let td = document.createElement("td");
+            td.innerHTML = numberArray[i][j];
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+        inputFieldsTable.appendChild(tbody);
+    }
 }
 
 function calculate() {
     if (series.value == "individual") {
         if (method.value == "direct") {
+            console.log("here");
             direct();
         } else if (method.value == "shortcut") {
+            console.log("here");
             shortCut();
         }
     }
@@ -62,18 +113,23 @@ function direct() {
     sumOfAllNumbers = 0;
     let total = numberArray.length;
     for (i = 0; i < total; i++) {
-        sumOfAllNumbers += numberArray[i];
+        sumOfAllNumbers += numberArray[i][0];
     }
     mean = sumOfAllNumbers / total;
 
     let formulaText = " \\( \\overline{x} = \\frac {\\sum x} {n} \\) ";
-    let solutionText = " \\( \\overline{x} = \\frac { " + sumOfAllNumbers + " } {  " + total + " } \\) ";
+    let solutionText =
+        " \\( \\overline{x} = \\frac { " +
+        sumOfAllNumbers +
+        " } {  " +
+        total +
+        " } \\) ";
     let answerText = " \\(\\overline{x}  = " + mean + " \\)";
 
     let solutionTableArray = [];
 
     for (i = 0; i < total; i++) {
-        solutionTableArray.push([i, numberArray[i]]);
+        solutionTableArray.push([i, numberArray[i][0]]);
     }
     console.log(solutionTableArray);
     console.log(solutionTableArray.length);
@@ -89,24 +145,32 @@ function shortCut() {
     sumOfDeviations = 0;
 
     for (i = 0; i < total; i++) {
-        deviationArray[i] = numberArray[i] - assumedMean;
+        deviationArray[i] = numberArray[i][0] - assumedMean;
         sumOfDeviations += deviationArray[i];
     }
 
     mean = assumedMean + sumOfDeviations / total;
 
     let formulaText = " \\( \\overline{x} = A + \\frac {\\sum d} {n} \\) ";
-    let solutionText = " \\( \\overline{x} = " + assumedMean + " +  \\frac { " + sumOfDeviations + " } {  " + total + " } \\) ";
+    let solutionText =
+        " \\( \\overline{x} = " +
+        assumedMean +
+        " +  \\frac { " +
+        sumOfDeviations +
+        " } {  " +
+        total +
+        " } \\) ";
     let answerText = " \\(\\overline{x}  = " + mean + " \\)";
 
     let solutionTableArray = [];
 
     for (i = 0; i < total; i++) {
-        solutionTableArray.push([i, numberArray[i], deviationArray[i]]);
+        solutionTableArray.push([i, numberArray[i][0], deviationArray[i]]);
     }
-    console.log(solutionTableArray)
+    console.log(solutionTableArray);
     showSolution(formulaText, solutionText, answerText, solutionTableArray);
 }
+
 
 function showSolution(
     formulaText,
@@ -135,7 +199,7 @@ function showSolution(
     solution.innerHTML = solutionText;
     answer.innerHTML = answerText;
 
-    inputTable.remove();
+    document.getElementById("input-fields-table").remove();
 
     solutionDiv.appendChild(formula);
     solutionDiv.appendChild(solution);
@@ -143,3 +207,15 @@ function showSolution(
 
     MathJax.typeset();
 }
+
+function clearSolution() {
+
+    let solutionDiv = document.getElementById("solution-div");
+    let solutionTableBody = document.getElementById("solution-table-body");
+
+    // Remove the content added by showSolution function
+    solutionTableBody.innerHTML = "";
+    solutionDiv.innerHTML = "";
+}
+
+showInputFields();
