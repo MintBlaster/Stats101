@@ -34,8 +34,10 @@
         <div id="individual-fields" style="display: none;">
             <label for="individual-data">Data:</label>
             <input type="text" id="individual-data" class="individual-field-input">
-            <label for="assumed-mean">Assumed Mean:</label>
-            <input type="text" id="assumed-mean">
+            <div id="assumed-mean-container" style="display: none;">
+                <label for="assumed-mean">Assumed Mean:</label>
+                <input type="text" id="assumed-mean">
+            </div>
         </div>
 
         <!-- Input fields for Discrete -->
@@ -58,7 +60,7 @@
 
         <div class="buttons div-content-center">
             <button type="submit" id="add-number">Add</button>
-            <button onclick="calculate()" id="calculate">Calculate</button>
+            <button id="calculate">Calculate</button>
         </div>
 
 
@@ -88,6 +90,7 @@
     <button id="clear-button" type="submit">Clear</button>
 </body>
 
-<script src="scripts/main.js"></script>
+<script type="module" src="scripts/classes.mjs"></script>
+<script type="module" src="scripts/main.mjs"></script>
 
 </html>
