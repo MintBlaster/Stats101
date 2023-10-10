@@ -1,4 +1,77 @@
+body {
+  background-color: whitesmoke;
+}
+
+.div-content-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-container {
+  margin: 30px;
+  flex-direction: column;
+}
+
+.main-heading {
+  color: rgb(0, 157, 157);
+  text-align: center;
+}
+
+
+/* Style for the select element itself */
+.select-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Style for dropdown options */
+.select-menu option {
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+}
+
+/* Style for selected option */
+.select-menu option:checked {
+  background-color: #009e9e;
+  color: #fff;
+}
+
+/* Style for dropdown when open */
+.select-menu:active,
+.select-menu {
+  border-color: #00ff95;
+}
+
+.question-container {
+  width: 100vw;
+  flex-direction: column;
+}
+
+.buttons button {
+  background-color: #00c7b8;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px 10px;
+  width: 100px;
+}
+
+.buttons button:hover {
+  background-color: #009e8e;
+}
+
 #solution-div {
 
-    font-size: 200%;
+  font-size: 200%;
 }
