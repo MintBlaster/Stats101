@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -33,31 +33,31 @@
     <div class="question-container div-content-center">
         <div id="individual-fields" style="display: none;">
             <label for="individual-data">Data:</label>
-            <input type="text" id="individual-data" class="individual-field-input" tabindex="1">
+            <input type="text" id="individual-data" class="individual-field-input">
             <label for="assumed-mean">Assumed Mean:</label>
-            <input type="text" id="assumed-mean" tabindex="1">
+            <input type="text" id="assumed-mean">
         </div>
 
         <!-- Input fields for Discrete -->
         <div id="discrete-fields" style="display: none;">
             <label for=" discrete-data">Data:</label>
-            <input type="text" id="discrete-data" class="discrete-field-input" tabindex="1">
+            <input type="text" id="discrete-data" class="discrete-field-input">
             <label for="frequency">Frequency:</label>
-            <input type="text" id="frequency" class="discrete-field-input" tabindex="2">
+            <input type="text" id="frequency" class="discrete-field-input">
         </div>
 
         <!-- Input fields for Continuous -->
         <div id="continuous-fields" style="display: none;">
             <label for="range-start">Start:</label>
-            <input type="text" id="range-start" class="continuous-field-input" tabindex="1">
+            <input type="text" id="range-start" class="continuous-field-input">
             <label for="range-end">End:</label>
-            <input type="text" id="range-end" class="continuous-field-input" tabindex="2">
+            <input type="text" id="range-end" class="continuous-field-input">
             <label for="frequency-continuous">Frequency:</label>
-            <input type="text" id="frequency-continuous" class="continuous-field-input" tabindex="3">
+            <input type="text" id="frequency-continuous" class="continuous-field-input">
         </div>
 
         <div class="buttons div-content-center">
-            <button type="submit" tabindex="4" id="add-number">Add</button>
+            <button type="submit" id="add-number">Add</button>
             <button onclick="calculate()" id="calculate">Calculate</button>
         </div>
 
@@ -70,8 +70,8 @@
 
     </div>
 
-    <!-- Container for printing the solution -->
-    <div id="solution-div">
+    <!-- Container for displaying the solution -->
+    <div id="solution-container">
         <table id="solution-table">
             <thead>
                 <tr id="solution-table-heading">
@@ -81,9 +81,13 @@
             <tbody id="solution-table-body">
             </tbody>
         </table>
+        <div id="solution-div">
+
+        </div>
     </div>
+    <button id="clear-button" type="submit">Clear</button>
 </body>
 
-<script src="script.js"></script>
+<script src="scripts/main.js"></script>
 
 </html>

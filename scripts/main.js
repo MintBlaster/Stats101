@@ -5,9 +5,16 @@ let series = document.getElementById("series");
 let method = document.getElementById("methods");
 
 let numberArray = [];
+let calculated = false;
 
 // Event Listeners
 addNumberButton.addEventListener("click", () => {
+
+    if (calculated == true) {
+        numberArray = [];
+        calculated = false;
+    }
+
 
     if (series.value === "individual") {
         var inputFields = document.querySelectorAll(".individual-field-input");
@@ -18,7 +25,6 @@ addNumberButton.addEventListener("click", () => {
             numberArray.push([parseFloat(data)]);
 
             inputFields.forEach(function (input) { input.value = "" });
-            // document.getElementById("individual-data").value = "";
         }
 
 
@@ -32,7 +38,6 @@ addNumberButton.addEventListener("click", () => {
             numberArray.push([data, frequency]);
 
             inputFields.forEach(function (input) { input.value = "" });
-            // ["discrete-data", "frequency"].forEach(id => document.getElementById(id).value = "");
         }
 
     } else if (series.value === "continuous") {
@@ -59,7 +64,6 @@ method.addEventListener("change", showInputFields);
 
 function showInputFields() {
 
-
     // Hide all input fields
     document.getElementById("individual-fields").style.display = "none";
     document.getElementById("discrete-fields").style.display = "none";
@@ -74,12 +78,15 @@ function showInputFields() {
         document.getElementById("continuous-fields").style.display = "block";
     }
 
-    // clear the data from the previous series / methods.
-    numberArray = [];
 }
 
 function showInputFieldsTable() {
+
     let inputFieldsTable = document.getElementById("input-fields-table");
+
+    // Show the input fields table.
+    inputFieldsTable.style.display = "block";
+
     while (inputFieldsTable.firstChild) {
         inputFieldsTable.removeChild(inputFieldsTable.firstChild);
     }
@@ -97,16 +104,24 @@ function showInputFieldsTable() {
     }
 }
 
+document.getElementById("clear-button").addEventListener("click", function () {
+    clearSolution();
+});
+
 function calculate() {
+
+    // Clear existing solution.
+    clearSolution();
+
     if (series.value == "individual") {
         if (method.value == "direct") {
-            console.log("here");
             direct();
         } else if (method.value == "shortcut") {
-            console.log("here");
             shortCut();
         }
     }
+
+    calculated = true;
 }
 
 function direct() {
@@ -131,9 +146,6 @@ function direct() {
     for (i = 0; i < total; i++) {
         solutionTableArray.push([i, numberArray[i][0]]);
     }
-    console.log(solutionTableArray);
-    console.log(solutionTableArray.length);
-    console.log(solutionTableArray[0].length);
     showSolution(formulaText, solutionText, answerText, solutionTableArray);
 }
 
@@ -199,7 +211,8 @@ function showSolution(
     solution.innerHTML = solutionText;
     answer.innerHTML = answerText;
 
-    document.getElementById("input-fields-table").remove();
+    // Hide the input field table.
+    document.getElementById("input-fields-table").style.display = "none";
 
     solutionDiv.appendChild(formula);
     solutionDiv.appendChild(solution);
