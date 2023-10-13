@@ -1,4 +1,4 @@
-import { IndividualSeriesCalculator, DiscreteSeriesCalculator } from "./classes.mjs";
+import { IndividualSeriesCalculator, DiscreteSeriesCalculator, ContinuousSeriesCalculator } from "./classes.mjs";
 
 let addNumberButton = document.getElementById("add-number");
 let solutionDiv = document.getElementById("solution-div");
@@ -124,23 +124,35 @@ function calculate() {
     if (series.value == "individual") {
         const isc = new IndividualSeriesCalculator(numberArray);
         if (method.value == "direct") {
-            isc.calculateDirectMethod()
+            isc.calculateDirectMethod();
         } else if (method.value == "shortcut") {
             let assumedMean = document.getElementById('assumed-mean').value;
             isc.calculateShortcutMethod(assumedMean)
         }
     }
 
-    if (series.value == "discrete") {
+    else if (series.value == "discrete") {
         const dsc = new DiscreteSeriesCalculator(numberArray);
         if (method.value == "direct") {
-            dsc.calculateDirectMethod()
+            dsc.calculateDirectMethod();
         } else if (method.value == "shortcut") {
-            dsc.calculateShortcutMethod()
+            dsc.calculateShortcutMethod();
         }
     }
 
-    calculated = true;
+    else if (series.value == "continuous") {
+        const csc = new ContinuousSeriesCalculator(numberArray);
+        if (method.value == "direct") {
+            csc.calculateDirectMethod();
+        }
+        else if (method.value == "shortcut") {
+            csc.calculateShortcutMethod();
+        } else if (method.value == "step-deviation") {
+            csc.calculateStepDeviationMethod();
+        }
+
+        calculated = true;
+    }
 }
 
 function showSolution(

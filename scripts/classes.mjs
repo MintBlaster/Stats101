@@ -121,14 +121,14 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
         const deviations = this.data.map((value) => value[0] - assumedMean);
 
         let sumOfFrequencyIntoDeviations = 0;
-        let sumOfAllFrequencies = 0;
+        let sumOfFrequencies = 0;
 
 
         for (let i = 0; i < total; i++) {
             sumOfFrequencyIntoDeviations += deviations[i] * this.data[i][1];
-            sumOfAllFrequencies += Number(this.data[i][1]);
+            sumOfFrequencies += Number(this.data[i][1]);
         }
-        this.result = Number(assumedMean) + sumOfFrequencyIntoDeviations / sumOfAllFrequencies;
+        this.result = Number(assumedMean) + sumOfFrequencyIntoDeviations / sumOfFrequencies;
 
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum fd} {N} \\)`;
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfFrequencyIntoDeviations}} {${sumOfAllFrequencies}} \\)`;
@@ -141,23 +141,85 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
 }
 
 // Continuous series class
-class ContinuousSeriesCalculator extends SeriesCalculator {
+export class ContinuousSeriesCalculator extends SeriesCalculator {
     constructor(data) {
         super(data);
     }
 
     calculateDirectMethod() {
-        // To be implemented...
+        const total = this.data.length;
+        const midpoints = this.data.map((value) => (Number(value[0]) + Number(value[1])) / 2);
+
+        let sumOfFrequencyIntoMidpoints = 0;
+        let sumOfFrequencies = 0;
+
+        for (let i = 0; i < total; i++) {
+            sumOfFrequencyIntoMidpoints += this.data[i][2] * midpoints[i];
+            sumOfFrequencies += Number(this.data[i][2])
+        }
+
+        this.result = sumOfFrequencyIntoMidpoints / sumOfFrequencies;
+
+        const formulaText = `\\( \\overline{x} = \\frac {\\sum fx} {N} \\)`;
+        const solutionText = `\\( \\overline{x} = \\frac {${sumOfFrequencyIntoMidpoints}} {${sumOfFrequencies}} \\)`;
+        const answerText = `\\(\\overline{x} = ${this.result} \\)`;
+
+        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], midpoints[index] * x[2]]);
+
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
+
     }
 
     calculateShortcutMethod() {
-        // To be implemented...
+        const total = this.data.length;
+        const midpoints = this.data.map((value) => (Number(value[0]) + Number(value[1])) / 2);
+        const assumedMean = midpoints[Math.floor(total / 2)];
+        const deviations = midpoints.map((value) => Number(value) - Number(assumedMean));
+
+        let sumOfDeviationsIntoMidpoints = 0;
+        let sumOfFrequencies = 0;
+
+        for (let i = 0; i < total; i++) {
+            sumOfDeviationsIntoMidpoints += deviations[i] * this.data[i][2];
+            sumOfFrequencies += Number(this.data[i][2])
+        }
+
+        this.result = Number(assumedMean) + (sumOfDeviationsIntoMidpoints / sumOfFrequencies);
+
+        const formulaText = `\\( \\overline{x} = A + \\frac {\\sum f d} {N} \\)`;
+        const solutionText = `\\( \\overline{x} = ${assumedMean}  +  \\frac {${sumOfDeviationsIntoMidpoints}} {${sumOfFrequencies}} \\)`;
+        const answerText = `\\(\\overline{x} = ${this.result} \\)`;
+
+        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], deviations[index], deviations[index] * x[2]]);
+
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
+
     }
     calculateStepDeviationMethod() {
-        // To be implemented...
+        const total = this.data.length;
+        const midpoints = this.data.map((value) => (Number(value[0]) + Number(value[1])) / 2);
+        const assumedMean = midpoints[Math.floor(total / 2)];
+        const deviations = midpoints.map((value) => Number(value) - Number(assumedMean));
+        const difference = this.data[1][0] - this.data[0][0];
+        const stepDeviations = deviations.map((value) => Number(value) / difference);
+
+        let sumOfStepDeviationsIntoFrequency = 0;
+        let sumOfFrequencies = 0;
+
+        for (let i = 0; i < total; i++) {
+            sumOfStepDeviationsIntoFrequency += stepDeviations[i] * this.data[i][2];
+            sumOfFrequencies += Number(this.data[i][2])
+        }
+
+        this.result = Number(assumedMean) + (sumOfStepDeviationsIntoFrequency / sumOfFrequencies);
+
+        const formulaText = `\\( \\overline{x} = A + \\frac {\\sum f d'} {N} \\)`;
+        const solutionText = `\\( \\overline{x} = ${assumedMean} + \\frac {${sumOfStepDeviationsIntoFrequency}} {${sumOfFrequencies}} \\)`;
+        const answerText = `\\(\\overline{x} = ${this.result} \\)`;
+
+        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], deviations[index], stepDeviations[index], stepDeviations[index] * x[2]]);
+
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
 
-    calculate() {
-        // To be implemented...
-    }
 }
