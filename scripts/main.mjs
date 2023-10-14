@@ -94,18 +94,39 @@ function showInputFieldsTable() {
     while (inputFieldsTable.firstChild) {
         inputFieldsTable.removeChild(inputFieldsTable.firstChild);
     }
+
     var tbody = document.createElement(tbody);
-    for (let i = 0; i < numberArray.length; i++) {
+
+    for (let i = 0; i < numberArray[0].length; i++) {
         // create number of rows
         let tr = document.createElement("tr");
-        for (let j = 0; j < numberArray[0].length; j++) {
-            let td = document.createElement("td");
-            td.innerHTML = numberArray[i][j];
-            tr.appendChild(td);
+
+        if (series.value === "continuous") {
+            for (let j = 0; j < numberArray.length; j++) {
+                if (i === 0) {
+                    let tdRange = document.createElement("td");
+                    tdRange.innerHTML = ` ${numberArray[j][0]} -  ${numberArray[j][1]}`;
+                    tr.appendChild(tdRange);
+                }
+                else if (i === 2) {
+                    let tdFreq = document.createElement("td");
+                    tdFreq.innerHTML = ` ${numberArray[j][2]} `;
+                    tr.appendChild(tdFreq);
+                }
+            }
+
+        }
+        else {
+            for (let j = 0; j < numberArray.length; j++) {
+                let td = document.createElement("td");
+                td.innerHTML = ` ${numberArray[j][i]} `;
+                tr.appendChild(td);
+            }
         }
         tbody.appendChild(tr);
         inputFieldsTable.appendChild(tbody);
     }
+
 }
 
 document.getElementById("calculate").addEventListener("click", function () {
