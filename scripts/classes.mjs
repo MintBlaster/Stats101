@@ -118,20 +118,20 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
 
         this.result = sumOfAllNumbersIntoFrequencies / sumOfFrequencies;
 
-        const headerText = `<tr><th>Sr No.</th><th> x </th><th> f </th></tr>`;
-        const footerText = `<tr><th>Total</th><th></th>${sumOfAllNumbersIntoFrequencies}<th> ${sumOfFrequencies}</th></tr>`;
-        const formulaText = `\\( \\overline{x} = \\frac {\\sum f} {N} \\)`;
+        const headerText = `<tr><th>Sr No.</th><th> x </th><th> f </th><th>fx</th></tr>`;
+        const footerText = `<tr><th>Total</th><th></th><th> ${sumOfFrequencies}</th><th>${sumOfAllNumbersIntoFrequencies}</th></tr>`;
+        const formulaText = `\\( \\overline{x} = \\frac {\\sum fx} {N} \\)`;
         const solutionText = `\\( \\overline{x} = \\frac {${sumOfAllNumbersIntoFrequencies}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], x[0] * x[1]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
     }
 
     calculateShortcutMethod() {
         const total = this.data.length;
-        const assumedMean = this.data[Math.floor(total / 2)];
+        const assumedMean = this.data[Math.floor(total / 2)][0];
         const deviations = this.data.map((value) => value[0] - assumedMean);
 
         let sumOfFrequencyIntoDeviations = 0;
@@ -194,7 +194,7 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         const assumedMean = midpoints[Math.floor(total / 2)];
         const deviations = midpoints.map((value) => Number(value) - Number(assumedMean));
 
-        let sumOfDeviationsIntoMidpoints = 0;
+        let sumOfFrequenciesIntoMidpoints = 0;
         let sumOfFrequencies = 0;
 
         for (let i = 0; i < total; i++) {

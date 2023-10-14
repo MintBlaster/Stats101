@@ -185,7 +185,6 @@ function calculate() {
 
 
 function clearSolution() {
-    numberArray = [];
 
     let solutionDiv = document.getElementById("solution-div");
     let solutionTableHeader = document.getElementById('solution-table-header');
