@@ -60,14 +60,22 @@ series.addEventListener("change", showInputFields);
 method.addEventListener("change", showInputFields);
 
 function showInputFields() {
-
-    console.log('change');
+    // Clear the number array on the series or method change
     numberArray = [];
+
+    // Show the methods according to the series selected 
+    if (series.value === "individual" || series.value === "discrete") {
+        method.querySelector("option[value='step-deviation']").style.display = "none";
+    }
+    else {
+        method.querySelector("option[value='step-deviation']").style.display = "block";
+    }
 
     // Hide all input fields
     document.getElementById("individual-fields").style.display = "none";
     document.getElementById("discrete-fields").style.display = "none";
     document.getElementById("continuous-fields").style.display = "none";
+
     // Hide assumed mean container
     document.getElementById("assumed-mean-container").style.display = "none";
 
