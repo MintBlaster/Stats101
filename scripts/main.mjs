@@ -62,6 +62,7 @@ method.addEventListener("change", showInputFields);
 function showInputFields() {
 
     console.log('change');
+    numberArray = [];
 
     // Hide all input fields
     document.getElementById("individual-fields").style.display = "none";
