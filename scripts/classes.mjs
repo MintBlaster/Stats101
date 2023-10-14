@@ -65,7 +65,7 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = \\frac {\\ ${sumOfAllNumbers}  } { ${total} } \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
@@ -81,7 +81,7 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfDeviations}} {${total}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x, deviations[index]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x, deviations[index]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
@@ -110,7 +110,7 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = \\frac {${sumOfAllNumbersIntoFrequencies}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
@@ -134,7 +134,7 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfFrequencyIntoDeviations}} {${sumOfAllFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], deviations[index], deviations[index] * x[1]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], deviations[index], deviations[index] * x[1]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
@@ -164,7 +164,7 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = \\frac {${sumOfFrequencyIntoMidpoints}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], midpoints[index] * x[2]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], x[2], midpoints[index], midpoints[index] * x[2]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
 
@@ -190,7 +190,7 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = ${assumedMean}  +  \\frac {${sumOfDeviationsIntoMidpoints}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], deviations[index], deviations[index] * x[2]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], x[2], midpoints[index], deviations[index], deviations[index] * x[2]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
 
@@ -217,7 +217,7 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         const solutionText = `\\( \\overline{x} = ${assumedMean} + \\frac {${sumOfStepDeviationsIntoFrequency}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
-        const solutionTableArray = this.data.map((x, index) => [index, x[0], x[1], x[2], midpoints[index], deviations[index], stepDeviations[index], stepDeviations[index] * x[2]]);
+        const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], x[2], midpoints[index], deviations[index], stepDeviations[index], stepDeviations[index] * x[2]]);
 
         SeriesCalculator.showSolution(formulaText, solutionText, answerText, solutionTableArray);
     }
