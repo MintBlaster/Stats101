@@ -2,6 +2,13 @@ body {
   background-color: whitesmoke;
 }
 
+hr {
+  border: 0;
+  height: 2px;
+  background: #009e9e;
+  margin: 20px 0;
+}
+
 .div-content-center {
   display: flex;
   align-items: center;
@@ -110,17 +117,18 @@ table.input-table tr.header {
 /* Apply basic styling to the table */
 table#solution-table {
   border-collapse: collapse;
-  width: 200px;
-  /* Set a fixed table width */
+  min-width: 200px;
   margin: 0 auto;
 }
 
 /* Style for table headers */
 table#solution-table th {
-  background-color: #f2f2f2;
   text-align: left;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #009e77;
+  background-color: #00c0a3;
+  color: white;
+  font-weight: bold;
   /* Add vertical borders */
 }
 
@@ -152,6 +160,9 @@ table#solution-table td {
 }
 
 #clear-button {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
   background-color: #ff3333;
   color: #fff;
   padding: 10px 20px;

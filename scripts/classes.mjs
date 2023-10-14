@@ -6,8 +6,9 @@ class SeriesCalculator {
         this.solutionTableArray = [];
     }
 
-    static showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray) {
-        let solutionTableHeader = document.getElementById('solution-table-heading');
+    static showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray) {
+        let solutionTableHeader = document.getElementById('solution-table-header');
+        let solutionTableFooter = document.getElementById('solution-table-footer');
         let solutionTableBody = document.getElementById("solution-table-body");
 
         // Clear any existing rows in the table
@@ -18,6 +19,7 @@ class SeriesCalculator {
 
         // Display Header
         solutionTableHeader.innerHTML = headerText;
+        solutionTableFooter.innerHTML = footerText;
 
         for (let i = 0; i < solutionTableArray.length; i++) {
             // Create a new row
@@ -67,13 +69,14 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
         this.result = sumOfAllNumbers / total;
 
         const headerText = `<tr><th>Sr No.</th><th> x </th></tr>`;
+        const footerText = `<tr><th>Total : </th><th> ${sumOfAllNumbers} </th></tr>`
         const formulaText = `\\( \\overline{x} = \\frac {\\sum x} {n} \\)`;
         const solutionText = `\\( \\overline{x} = \\frac {\\ ${sumOfAllNumbers}  } { ${total} } \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, x]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
     }
 
     calculateShortcutMethod(assumedMean) {
@@ -85,13 +88,14 @@ export class IndividualSeriesCalculator extends SeriesCalculator {
         this.result = Number(assumedMean) + sumOfDeviations / total;
 
         const headerText = `<tr><th>Sr No.</th><th> x </th><th> d = x - a </th></tr>`;
+        const footerText = `<tr><th>Total</th><th></th><th> ${sumOfDeviations}</th></tr>`;
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum d} {n} \\)`;
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfDeviations}} {${total}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, x, deviations[index]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
     }
 }
 
@@ -115,18 +119,19 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
         this.result = sumOfAllNumbersIntoFrequencies / sumOfFrequencies;
 
         const headerText = `<tr><th>Sr No.</th><th> x </th><th> f </th></tr>`;
+        const footerText = `<tr><th>Total</th><th></th>${sumOfAllNumbersIntoFrequencies}<th> ${sumOfFrequencies}</th></tr>`;
         const formulaText = `\\( \\overline{x} = \\frac {\\sum f} {N} \\)`;
         const solutionText = `\\( \\overline{x} = \\frac {${sumOfAllNumbersIntoFrequencies}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
     }
 
     calculateShortcutMethod() {
         const total = this.data.length;
-        const assumedMean = this.data[Math.floor(total / 2)][0];
+        const assumedMean = this.data[Math.floor(total / 2)];
         const deviations = this.data.map((value) => value[0] - assumedMean);
 
         let sumOfFrequencyIntoDeviations = 0;
@@ -140,13 +145,14 @@ export class DiscreteSeriesCalculator extends SeriesCalculator {
         this.result = Number(assumedMean) + sumOfFrequencyIntoDeviations / sumOfFrequencies;
 
         const headerText = `<tr><th>Sr No.</th><th> x </th><th> f </th><th> d </th><th> fd </th></tr>`;
+        const footerText = `<tr><th>Total</th><th></th><th>${sumOfFrequencies}</th><th></th><th>${sumOfFrequencyIntoDeviations}</th></tr>`;
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum fd} {N} \\)`;
         const solutionText = `\\( \\overline{x} = ${assumedMean} +  \\frac {${sumOfFrequencyIntoDeviations}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, x[0], x[1], deviations[index], deviations[index] * x[1]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
     }
 }
 
@@ -171,13 +177,14 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         this.result = sumOfFrequencyIntoMidpoints / sumOfFrequencies;
 
         const headerText = `<tr><th>Sr No.</th><th> Range </th><th> f </th><th> x </th><th> fx </th></tr>`;
+        const footerText = `<tr><th>Total</th><th> Range </th><th> ${sumOfFrequencies} </th><th></th><th> ${sumOfFrequencyIntoMidpoints} </th></tr>`;
         const formulaText = `\\( \\overline{x} = \\frac {\\sum fx} {N} \\)`;
         const solutionText = `\\( \\overline{x} = \\frac {${sumOfFrequencyIntoMidpoints}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, `${String(x[0])} - ${String(x[1])}`, x[2], midpoints[index], midpoints[index] * x[2]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
 
     }
 
@@ -191,20 +198,21 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         let sumOfFrequencies = 0;
 
         for (let i = 0; i < total; i++) {
-            sumOfDeviationsIntoMidpoints += deviations[i] * this.data[i][2];
+            sumOfFrequenciesIntoMidpoints += deviations[i] * this.data[i][2];
             sumOfFrequencies += Number(this.data[i][2])
         }
 
-        this.result = Number(assumedMean) + (sumOfDeviationsIntoMidpoints / sumOfFrequencies);
+        this.result = Number(assumedMean) + (sumOfFrequenciesIntoMidpoints / sumOfFrequencies);
 
         const headerText = `<tr><th>Sr No.</th><th> Range </th><th> f </th><th> x </th><th> d = x - a </th><th> fd </th></tr>`;
+        const footerText = `<tr><th>Total</th><th> </th><th> ${sumOfFrequencies} </th><th>  </th><th> </th><th> ${sumOfFrequenciesIntoMidpoints} </th></tr>`;
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum f d} {N} \\)`;
-        const solutionText = `\\( \\overline{x} = ${assumedMean}  +  \\frac {${sumOfDeviationsIntoMidpoints}} {${sumOfFrequencies}} \\)`;
+        const solutionText = `\\( \\overline{x} = ${assumedMean}  +  \\frac {${sumOfFrequenciesIntoMidpoints}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, `${String(x[0])} - ${String(x[1])}`, x[2], midpoints[index], deviations[index], deviations[index] * x[2]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
 
     }
     calculateStepDeviationMethod() {
@@ -226,13 +234,14 @@ export class ContinuousSeriesCalculator extends SeriesCalculator {
         this.result = Number(assumedMean) + (sumOfStepDeviationsIntoFrequency / sumOfFrequencies);
 
         const headerText = `<tr><th>Sr No.</th><th> Range </th><th> f </th><th> x </th><th> d = x - a </th><th> d' = x / i </th><th> fd'</th> </tr>`;
+        const footerText = `<tr><th>Total</th><th> </th><th> ${sumOfFrequencies} </th><th> </th><th>  </th><th>  </th><th> ${sumOfStepDeviationsIntoFrequency} </th> </tr>`;
         const formulaText = `\\( \\overline{x} = A + \\frac {\\sum f d'} {N} \\)`;
         const solutionText = `\\( \\overline{x} = ${assumedMean} + \\frac {${sumOfStepDeviationsIntoFrequency}} {${sumOfFrequencies}} \\)`;
         const answerText = `\\(\\overline{x} = ${this.result} \\)`;
 
         const solutionTableArray = this.data.map((x, index) => [index + 1, `${String(x[0])} - ${String(x[1])}`, x[2], midpoints[index], deviations[index], stepDeviations[index], stepDeviations[index] * x[2]]);
 
-        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, solutionTableArray);
+        SeriesCalculator.showSolution(formulaText, solutionText, answerText, headerText, footerText, solutionTableArray);
 
     }
 }

@@ -1,7 +1,6 @@
 import { IndividualSeriesCalculator, DiscreteSeriesCalculator, ContinuousSeriesCalculator } from "./classes.mjs";
 
 let addNumberButton = document.getElementById("add-number");
-let solutionDiv = document.getElementById("solution-div");
 let series = document.getElementById("series");
 let method = document.getElementById("methods");
 
@@ -147,8 +146,6 @@ document.getElementById("clear-button").addEventListener("click", function () {
 });
 
 function calculate() {
-    console.log(numberArray)
-    // Clear existing solution.
     clearSolution();
 
     if (series.value == "individual") {
@@ -182,53 +179,23 @@ function calculate() {
         }
 
         calculated = true;
+        document.getElementById('solution-container').scrollIntoView({ behavior: "smooth" });
     }
 }
 
-function showSolution(
-    formulaText,
-    solutionText,
-    answerText,
-    solutionTableArray
-) {
-    let solutionTableBody = document.getElementById("solution-table-body");
-
-    for (i = 0; i < solutionTableArray.length; i++) {
-        // create number of rows
-        let tr = document.createElement("tr");
-        for (j = 0; j < solutionTableArray[0].length; j++) {
-            let td = document.createElement("td");
-            td.innerHTML = solutionTableArray[i][j];
-            tr.appendChild(td);
-        }
-        solutionTableBody.appendChild(tr);
-    }
-
-    let formula = document.createElement("p");
-    let solution = document.createElement("div");
-    let answer = document.createElement("p");
-
-    formula.innerHTML = formulaText;
-    solution.innerHTML = solutionText;
-    answer.innerHTML = answerText;
-
-    // Hide the input field table.
-    document.getElementById("input-fields-table").style.display = "none";
-
-    solutionDiv.appendChild(formula);
-    solutionDiv.appendChild(solution);
-    solution.appendChild(answer);
-
-    MathJax.typeset();
-}
 
 function clearSolution() {
+    numberArray = [];
 
     let solutionDiv = document.getElementById("solution-div");
+    let solutionTableHeader = document.getElementById('solution-table-header');
+    let solutionTableFooter = document.getElementById('solution-table-footer');
     let solutionTableBody = document.getElementById("solution-table-body");
 
     // Remove the content added by showSolution function
     solutionTableBody.innerHTML = "";
+    solutionTableHeader.innerHTML = "";
+    solutionTableFooter.innerHTML = "";
     solutionDiv.innerHTML = "";
 }
 
